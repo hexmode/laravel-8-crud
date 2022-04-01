@@ -1,0 +1,60 @@
+* A Laravel 8 CRUD example
+
+from [[https://www.youtube.com/watch?v=KfaZRBdN2as][Laravel CRUD + VUE.js 3 Composition API]]
+** Install Laravel CLI:
+#+begin_src sh
+  composer global require laravel/installer
+  composer global require composer/composer
+  PATH=~/.config/composer/vendor/bin:$PATH
+#+end_src
+
+** Set up project
+#+begin_src sh
+  laravel new crud-project
+  cd crud-project
+  echo direnv dotenv > .envrc
+  composer require laravel/breeze
+  ./artisan breeze:install
+  ./artisan migrate —seed
+  npm install && npm run dev
+#+end_src
+
+** Set up model
+#+begin_src sh
+  ./artisan make:model Wiki -m
+  #+end_src
+
+*** Add fields for wiki
+in database/migrations/2022*.php
+#+begin_src php
+            $table->string("name");
+            $table->string("url")
+#+end_src
+*** Set up model
+in app/Models/Wiki.php
+#+begin_src php
+    protected $fillable = [ 'name', 'url' ];
+#+end_src
+** Set up controller
+#+begin_src sh
+  ./artisan make:controller Api/WikiController --api --resource --model=Wiki
+#+end_src
+*** Add route
+#+begin_src php
+Route::apiResource(name: 'wikis', controller: WikiController::class );
+#+end_src
+** Stub resource
+This is cargo cult programming at its best.  I can't explain it.  It is used by the controller, though.
+#+begin_src sh
+  ./artisan make:resource WikiResource
+#+end_src
+
+** Use resource in controller
+#+begin_src php
+
+#+end_src
+** VUE JS
+#+begin_src sh
+npm install vue@next vue-router@next vue-loader@next
+#+end_src
+*** add to resources/views/dashboard.blade.php
